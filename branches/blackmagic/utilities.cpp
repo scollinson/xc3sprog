@@ -11,6 +11,7 @@
 #include "iofx2.h"
 #include "ioftdi.h"
 #include "ioxpc.h"
+#include "iobmp.h"
 #include "utilities.h"
 
 extern char *optarg;
@@ -79,6 +80,12 @@ int  getIO( std::auto_ptr<IOBase> *io, struct cable_t * cable, char const *dev,
       io->get()->setVerbose(verbose);
       res = io->get()->Init(cable, serial, use_freq);
   }
+  else if(cable->cabletype == CABLE_BMP)
+  {
+      io->reset(new IOBMP());
+      io->get()->setVerbose(verbose);
+      res = io->get()->Init(cable, serial, use_freq);
+  }
   else
   {
       fprintf(stderr, "Unknown Cable \"%s\" \n", getCableName(cable->cabletype));
@@ -94,6 +101,7 @@ const char *getCableName(int type)
     case CABLE_FTDI: return "ftdi"; break;
     case CABLE_FX2: return "fx2"; break;
     case CABLE_XPC: return "xpc"; break;
+    case CABLE_BMP: return "bmp"; break;
     case CABLE_UNKNOWN: return "unknown"; break;
     default:
         return "Unknown";
