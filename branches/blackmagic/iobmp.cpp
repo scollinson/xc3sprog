@@ -388,7 +388,7 @@ void IOBMP::txrx_block(const unsigned char *tdi, unsigned char *tdo,
     char data[1024] = "raw ";
     int cmd;
 
-    if (tdi || tdo)
+    if (tdi && tdo)
         cmd =  RAW_JTAG_TDITDO;
     else if (tdi)
         cmd = RAW_JTAG_TDI;
